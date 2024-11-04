@@ -6,9 +6,8 @@
 # IDE         :PyCharm
 import math
 import time
-
-import autopy as at
-from pykeyboard import PyKeyboard
+import pyautogui as at
+import keyboard as k
 import pyscreenshot as ImageGrab
 import cv2
 import numpy as np
@@ -16,10 +15,11 @@ from collections import deque
 import pyaudio
 import audioop
 import sounddevice as sd
+# from pydub import AudioSegment
 
 # x = 0
 
-k = PyKeyboard()
+# k = PyKeyboard()
 
 # import autopy
 
@@ -55,7 +55,7 @@ def check_screen_size():
 
 def send_float():
     print('Sending float')
-    k.tap_key('1', 1)
+    k.press('1', 1)
     print('Float is sent, waiting animation')
     time.sleep(2)
 
@@ -89,13 +89,13 @@ def move_mouse(place):
     ly = location_y + y
     # print('ly, ly')
     # print(lx, ly)
-    at.mouse.smooth_move(lx, ly)
+    at.moveTo(lx, ly, duration=1)
 
 
 def jump():
     print('Jump!')
     # autopy.key.tap(u' ')
-    # k.tap_key('', 1)
+    # k.press('', 1)
     time.sleep(1)
 
     # at.mouse.smooth_move(500,500)
@@ -198,46 +198,46 @@ def listen():
 
 def snatch():
     print('Snatching!')
-    at.mouse.click(at.mouse.Button.RIGHT)
+    at.click(button='right')
     # time.sleep(0.5)
     # at.mouse.click(at.mouse.Button.RIGHT)
 
 
 def addBait():
     print('addBait')
-    k.tap_key('u') # u是设置的打开装备面板
+    k.press('u') # u是设置的打开装备面板
     time.sleep(2)
-    k.tap_key('3')
-    at.mouse.smooth_move(155, 537)
-    at.mouse.click(at.mouse.Button.LEFT)
-    at.mouse.smooth_move(791, 155)
-    at.mouse.click(at.mouse.Button.LEFT)
+    k.press('3')
+    at.moveTo(155, 537, duration=1)
+    at.click(button='left')
+    at.moveTo(791, 155, duration=1)
+    at.click(button='left')
     time.sleep(15)
-    k.tap_key('u')
+    k.press('u')
 
 
 def autoLogOut():
     print('自动登出')
-    at.mouse.smooth_move(837, 780)
+    at.moveTo(837, 780, duration=1)
     time.sleep(1)
-    at.mouse.click(at.mouse.Button.LEFT)
+    at.click(button='left')
     time.sleep(0.5)
-    at.mouse.smooth_move(650, 458)
-    at.mouse.click(at.mouse.Button.LEFT)
+    at.moveTo(650, 458, duration=1)
+    at.click(button='left')
     time.sleep(60)
 
     # print(k.function_keys[5])
-    # k.tap_key(k.function_keys[5])
-    # k.tap_key(k.numpad_keys['Home'])  # Tap 'Home' on the numpad
+    # k.press(k.function_keys[5])
+    # k.press(k.numpad_keys['Home'])  # Tap 'Home' on the numpad
     # print(k)
 
 
 def autoLogin():
     print('自动登录')
-    at.mouse.smooth_move(1114, 118)
-    at.mouse.click(at.mouse.Button.LEFT)
+    at.moveTo(1114, 118, duration=1)
+    at.click(button='left')
     time.sleep(0.1)
-    at.mouse.click(at.mouse.Button.LEFT)
+    at.click(button='left')
     time.sleep(25)
 
 
@@ -288,17 +288,17 @@ def main():
         #     print('开始装')
         #     addBait()
         #     for i in range(10):
-        #         k.tap_key('q')
+        #         k.press('q')
         #         time.sleep(1)
-        #     k.tap_key('t')
+        #     k.press('t')
         # elif x % 200 == 0:
         #     smallLoginLogOut()
 
         # global x
         # x += 1
-        k.tap_key('t')
+        k.press('t')
         for i in range(2):
-            k.tap_key('2')
+            k.press('2')
         send_float()
         im = make_screenshot()
         place = find_float(im)
