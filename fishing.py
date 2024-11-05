@@ -35,7 +35,7 @@ print('-----')
 def check_screen_size():
     print("Checking screen size")
     img = ImageGrab.grab()
-    # img.save('temp.png')
+    img.save('temp.png')
     print('img.size')
     print(img.size)
 
@@ -167,7 +167,9 @@ def listen():
     stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
-                    input=True,
+                    input=False,
+                    output=True,
+                    output_device_index=1,
                     frames_per_buffer=CHUNK)
     cur_data = ''  # current chunk  of audio data
     rel = RATE / CHUNK
@@ -184,7 +186,7 @@ def listen():
                 print('I heart something!')
                 success = True
                 break
-            if time.time() - listening_start_time > 20:
+            if time.time() - listening_start_time > 30:
                 print('I don\'t hear anything already 20 seconds!')
                 break
         except IOError:
@@ -253,7 +255,13 @@ def calculate_time():
     t = round(time.time())
     return t
 
-def main():
+def start_fishing():
+    # p = pyaudio.PyAudio()
+    # Print all available audio devices
+    # for i in range(p.get_device_count()):
+    #     info = p.get_device_info_by_index(i)
+    #     print(f"Device {i}: {info['name']} (Input Channels: {info['maxInputChannels']}, Output Channels: {info['maxOutputChannels']})")
+    # p.terminate()
 
     if dev:
         # 调试能否找到图片位置
@@ -266,6 +274,13 @@ def main():
     time_list = []
     # addBait()
     while True:
+        event = k.read_event()
+        if event.event_type == k.KEY_DOWN:
+            if event.name == 'b':
+                print("Stopping fishing.")
+                break
+            else: 
+                print("Continue fishing.")
         doc = open('./record.txt','a')
         t = calculate_time()
         time_list.append(t)
@@ -280,7 +295,7 @@ def main():
                 time_list.pop(0)
                 continue
             time_list.pop()
-        print(' start fishing')
+        print('start fishing')
 
         # print(x)
         # x += 1
@@ -296,10 +311,10 @@ def main():
 
         # global x
         # x += 1
-        k.press('t')
-        for i in range(2):
-            k.press('2')
-        send_float()
+        # k.press('t')
+        # for i in range(2):
+        #     k.press('2')
+        # send_float()
         im = make_screenshot()
         place = find_float(im)
         move_mouse(place)
@@ -311,4 +326,6 @@ def main():
     # addBait()
 
 
-main()
+# Wait for the 's' key to start capturing
+k.wait('f')
+start_fishing()

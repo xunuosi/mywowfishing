@@ -1,0 +1,6 @@
+pyautogui
+keyboard
+pyscreenshot
+opencv-python
+pyaudio
+sounddevice
